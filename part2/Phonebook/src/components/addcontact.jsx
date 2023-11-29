@@ -9,7 +9,7 @@ const handlePhone = (event) =>{setNewPhone(event.target.value)}
 const addContact = (event) =>{
     console.log(props.persons, newName, newPhone)
     event.preventDefault() 
-    if (!props.persons.some(obj => (obj.name === newName)) && !(props.persons.some(obj => (obj.phone === newPhone)))) {      
+    if (!props.persons.some(obj => (obj.name === newName)) ) {      
         props.setPersons([...props.persons,{name:newName, phone: newPhone}])
         setNewName("")
         setNewPhone("")
