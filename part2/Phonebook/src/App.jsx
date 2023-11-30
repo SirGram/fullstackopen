@@ -7,7 +7,6 @@ import axios from "axios"
 const App = () => {
   
   const [persons, setPersons] = useState([])
-  console.log(persons)
   const hook = ()=>{
     axios
       .get("http://localhost:3001/persons")
@@ -27,7 +26,7 @@ const App = () => {
       <h3>Add new Contact</h3>
       <AddContact persons = {persons} setPersons = {setPersons}/>      
       <h3>Contacts</h3>      
-      <Persons persons = {persons} filter = {filter} setFilter = {setFilter}/>      
+      <Persons persons = {persons} filter = {filter} />      
     </div>
 
   )
