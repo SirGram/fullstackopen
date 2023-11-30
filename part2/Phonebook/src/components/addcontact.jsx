@@ -13,7 +13,7 @@ const AddContact=(props)=>{
         event.preventDefault() 
         const contact = {
             name:{newName},
-            number:{newNumber}
+            number:{newPhone}
         }
         if (!props.persons.some(obj => (obj.name === newName)) ) {      
             
