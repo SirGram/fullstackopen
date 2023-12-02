@@ -3,6 +3,7 @@ import Persons from "./components/persons"
 import Filter from "./components/filter"
 import AddContact from "./components/addcontact"
 import contactService from './services/contactService'
+import Notification from "./components/notification"
 
 const App = () => {
 
@@ -18,15 +19,17 @@ const App = () => {
 
   
 
-  const [filter, setFilter] = useState("")
+  const [filter, setFilter] = useState("")  
+  const [errorMessage, setErrorMessage] = useState("some error")
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
+      <Notification message = {errorMessage}/>
       <Filter filter={filter} setFilter={setFilter} />
-      <h3>Add new Contact</h3>
-      <AddContact persons={persons} setPersons={setPersons} />
-      <h3>Contacts</h3>
+      <h2>Add new Contact</h2>
+      <AddContact persons={persons} setPersons={setPersons} setErrorMessage={setErrorMessage} />
+      <h2>Contacts</h2>
       <Persons persons={persons} setPersons={setPersons} filter={filter} />
     </div>
 

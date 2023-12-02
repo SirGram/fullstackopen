@@ -22,7 +22,9 @@ const AddContact=(props)=>{
                     console.log("trying to introduce",response)
                     props.setPersons(persons => [...persons, response])
                     setNewName("")
-                    setNewPhone("")
+                    setNewPhone("")                    
+                    props.setErrorMessage(`Added ${newName}`)
+                    
                 })
           
             
@@ -37,10 +39,10 @@ const AddContact=(props)=>{
                         console.log("trying to reintroduce",updatedContact)
                         props.setPersons(persons => persons.map((person)=> person.id === updatedContact.id ? updatedContact: person))
                         setNewName("")
-                        setNewPhone("")
+                        setNewPhone("")                        
+                        props.setErrorMessage(`Changed ${newName}`)
                     })
             }
-           
         }    
     }
     return(
