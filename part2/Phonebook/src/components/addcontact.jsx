@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { useState} from 'react'
+import contactService from '../services/contactService'
 
 const AddContact=(props)=>{   
 
@@ -12,20 +12,35 @@ const AddContact=(props)=>{
         console.log("trying to add to", props.persons)
         event.preventDefault() 
         const contact = {
-            name:{newName},
-            number:{newPhone}
+            name:newName,
+            phone:newPhone
         }
-        if (!props.persons.some(obj => (obj.name === newName)) ) {      
+        if (!props.persons.some(person => (person.name === newName)) ) {      
+            contactService
+                .create(contact)
+                .then(response=>{
+                    console.log("trying to introduce",response)
+                    props.setPersons(persons => [...persons, response])
+                    setNewName("")
+                    setNewPhone("")
+                })
+          
             
-            axios
-                .post("http://localhost:3001/persons", contact)
-                .then(response=>console.log("sent ", response.data))
-
-            setNewName("")
-            setNewPhone("")
         } else {  
-            console.log("alert")    
-            alert(`${newName} and/or ${newPhone}is already added to phonebook`)
+            const existingContact = props.persons.find((person)=>(person.name === newName))
+            const question = window.confirm(`${newName} is already added to the phonebook. Replace the old number with a new one?`)
+
+            if (question){
+                contactService
+                    .update(existingContact.id, contact)
+                    .then(updatedContact=>{
+                        console.log("trying to reintroduce",updatedContact)
+                        props.setPersons(persons => persons.map((person)=> person.id === updatedContact.id ? updatedContact: person))
+                        setNewName("")
+                        setNewPhone("")
+                    })
+            }
+           
         }    
     }
     return(
