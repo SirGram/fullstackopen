@@ -10,6 +10,7 @@ const getAll = () => {
 const create = newObject => {
     const request = axios.post(baseUrl, newObject)
     return request.then(response => response.data)
+    
 }
 
 const remove = (id) => {
@@ -21,7 +22,8 @@ const remove = (id) => {
 const update = (id, newObj) =>{
     console.log("changing number ", newObj)
     const request = axios.put(`${baseUrl}/${id}`, newObj)
-    return request.then(response=> response.data)
+    return request
+        .then(response=> response.data)
 }
 
 export default {

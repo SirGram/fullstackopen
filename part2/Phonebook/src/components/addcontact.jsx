@@ -26,6 +26,8 @@ const AddContact=(props)=>{
                     props.setErrorMessage(`Added ${newName}`)
                     
                 })
+                
+                
           
             
         } else {  
@@ -41,7 +43,14 @@ const AddContact=(props)=>{
                         setNewName("")
                         setNewPhone("")                        
                         props.setErrorMessage(`Changed ${newName}`)
+                    })                        
+                    .catch(error => {
+                         props.setErrorMessage(`Information of ${newName} has already been removed from the server`)
+                         setTimeout(() => {
+                            props.setErrorMessage(null)
+                         }, 5000)
                     })
+
             }
         }    
     }

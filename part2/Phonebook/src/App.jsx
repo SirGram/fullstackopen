@@ -20,7 +20,7 @@ const App = () => {
   
 
   const [filter, setFilter] = useState("")  
-  const [errorMessage, setErrorMessage] = useState("some error")
+  const [errorMessage, setErrorMessage] = useState(null)
 
   return (
     <div>
