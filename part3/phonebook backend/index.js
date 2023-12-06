@@ -1,7 +1,8 @@
 const express = require("express");
-const { get } = require("express/lib/response");
+const { get, json } = require("express/lib/response");
 
 const app = express();
+app.use(express.json())
 
 let persons = [
   {
@@ -45,9 +46,26 @@ app.get("/api/persons/:id", (request, response)=> {
 
 })
 app.delete("/api/persons/:id", (request, response)=>{
-    id = Number(request.params.id)
+    const id = Number(request.params.id)
     persons = persons.filter(person => person.id != id)
     response.status(204).end()
+})
+
+app.post("/api/persons", (request, response)=>{
+  body = request.body
+  if(!body.name || !body.number)
+    {response.status(400).json({error: "missing name or number"})}
+  
+  else if (persons.find(person=> person.name === body.name))
+    {response.status(400).json({error:"repeated name"})}
+
+  person ={
+    id: body.id || Math.floor(Math.random() * 1000,),
+    name: body.name,
+    number: body.number
+  }
+  persons = [...persons, person]
+  response.json(person)
 })
 
 const PORT = 3001;
