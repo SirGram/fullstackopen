@@ -11,6 +11,7 @@
   "author": "SirGram",
   "license": "MIT",
   "dependencies": {
+    "morgan": "^1.10.0",
     "nodemon": "^3.0.2"
   },
   "devDependencies": {

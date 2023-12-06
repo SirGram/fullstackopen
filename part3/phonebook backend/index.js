@@ -1,8 +1,22 @@
-const express = require("express");
-const { get, json } = require("express/lib/response");
+const express = require("express")
+const morgan = require("morgan")
 
-const app = express();
+const app = express()
 app.use(express.json())
+
+
+morgan.token("body", (request, response)=> JSON.stringify(request.body))
+app.use(morgan(function (tokens, req, res) {
+  return [
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    tokens.res(req, res, 'content-length'), '-',
+    tokens['response-time'](req, res), 'ms',
+    tokens.body(req, res)  
+  ].join(' ');
+}));
+
 
 let persons = [
   {
@@ -26,6 +40,10 @@ let persons = [
     number: "39-23-6423122",
   },
 ];
+
+
+
+
 
 app.get("/api/persons", (request, response) => {
   response.json(persons);
@@ -52,7 +70,7 @@ app.delete("/api/persons/:id", (request, response)=>{
 })
 
 app.post("/api/persons", (request, response)=>{
-  body = request.body
+  const body = request.body
   if(!body.name || !body.number)
     {response.status(400).json({error: "missing name or number"})}
   
@@ -67,6 +85,11 @@ app.post("/api/persons", (request, response)=>{
   persons = [...persons, person]
   response.json(person)
 })
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+app.use(unknownEndpoint)
 
 const PORT = 3001;
 app.listen(PORT, console.log("server running on port ", PORT));
